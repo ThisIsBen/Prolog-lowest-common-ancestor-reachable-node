@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+
+build_graph :-readln(C),cdr(C,N),foo(N).
+foo(0):- !.
+foo(N) :-
+N>0,
+N1 is N-1,
+enterp,
+foo(N1) .
+
+enterp:-readln(P),car(P,Y),cdr(P,Z),assert(edge(Y,Z)).
+
+found.
+
+car([X|_], X).
+
+cdr([_|X], Z):-Z is X.
+
+
+
+
+
+get_query:-empty([5],L),readln(C),car(C,K),add(K,K,L).
+add(0,NN,L):-get_link(NN,L),!.
+add(K,NN,L) :-
+K>0,
+K1 is K-1,
+
+readln(P)
+,append(L,P,L1),
+add(K1,NN,L1) .
+
+
+
+
+
+
+
+
+
+    get_link(0,L):-!.
+    get_link(N,L) :-
+	N>0,
+	N1 is N-1,
+	car(L,X)
+	,empty(L,Z)
+
+	,car(Z,Y)
+	,empty(Z,W)
+
+,(link(X,Y) ->
+    writeln('Yes')
+;   writeln('No'))
+
+
+
+
+	,get_link(N1,W)
+	.
+
+empty([_|X], Y) :-append(X, [], Y).
+
+
+
+link(X,Y):-link(X,Y,[]).
+link(X,Y,_) :- edge(X,Y).
+link(X,Y,V):- \+ member(X,V),edge(X,Z),link(Z,Y,[X|V]).
+
+
+
+main :- build_graph,get_query.
+:- initialization(main).
+
+
+

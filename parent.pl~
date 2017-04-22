@@ -1,0 +1,74 @@
+
+
+
+
+
+
+
+build_tree :-readln(C),car(C,N),foo(N).
+foo(0):- !.
+foo(N) :-
+N>0,
+N1 is N-1,
+enterp,
+foo(N1) .
+
+enterp:-readln(P),car(P,Y),cdr(P,Z),assert(parent(Y,Z)).
+%pig:-!.
+
+found.
+
+car([X|_], X).
+
+cdr([_|X], Z):-Z is X.
+
+
+
+
+%append([],[],L),
+get_lca:-empty([5],L),readln(C),car(C,N),add(N,L).
+add(0,L):-printlist(L),!.
+add(N,L) :-
+N>0,
+N1 is N-1,
+%get_query(L),
+readln(P),car(P,Y),cdr(P,Z),lca(Y,Z,Q)
+,append(L,[Q],L1),
+add(N1,L1) .
+
+
+empty([_|X], Y) :-append(X, [], Y).
+
+% get_query(L):-write('enter a
+% b\n'),readln(P),car(P,Y),cdr(P,Z),lca(Y,Z,Q)
+%,append(L,[Q],L1).
+
+
+
+%add_to_list(X,Y) :-append(X, [], Y).
+
+
+
+
+ printlist([]).
+
+    printlist([X|List]) :-
+        write(X),nl,
+        printlist(List).
+% print_elements(List) :- member(Element, List), write(Element), nl,
+% fail,!.
+
+
+
+
+ancestor(A, B) :- parent(A, B).
+ancestor(A, B) :- parent(X, B), ancestor(A, X).
+lca(A, B, X) :- ancestor(X, A), ancestor(X, B);(parent(A, B),X=A);(parent(B, A),X=B).
+main :- build_tree,get_lca.
+:- initialization(main).
+
+
+
+
+
+
